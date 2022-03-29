@@ -1,0 +1,15 @@
+name: "yarn-outdated-to-datadog"
+description: "Github action to send metrics on outdated dependencies to datadog"
+inputs:
+  datadog-api-key:
+    required: true
+  github-token:
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - run: yarn outdated --json | node ${GITHUB_ACTION_PATH}/calcOutdatedMetrics.js | ${GITHUB_ACTION_PATH}/shipMetrics.sh
+      shell: bash {0}
+      env:
+        DATADOG_API_KEY: ${{ inputs.datadog-api-key }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}
