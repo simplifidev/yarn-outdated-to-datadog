@@ -30,8 +30,8 @@ process.stdin.on('end', function () {
 
   packageList?.forEach(package => {
     const [name, currentVersion, wanted, latestVersion] = package;
-    const [currentMajor, currentMinor, currentPatch] = currentVersion;
-    const [latestMajor, latestMinor, latestPatch] = latestVersion;
+    const [currentMajor, currentMinor, currentPatch] = currentVersion.split('.');
+    const [latestMajor, latestMinor, latestPatch] = latestVersion.split('.');
 
     if (currentMajor >= latestMajor) {
       if (currentMinor >= latestMinor) {
