@@ -34,15 +34,17 @@ process.stdin.on("end", function () {
 
       packageList?.forEach((package) => {
         const [name, currentVersion, wanted, latestVersion] = package;
-        const [currentMajor, currentMinor, currentPatch] =
-          currentVersion.split(".");
-        const [latestMajor, latestMinor, latestPatch] =
-          latestVersion.split(".");
+        const [currentMajor, currentMinor, currentPatch] = currentVersion
+          .split(".")
+          .map(parseInt);
+        const [latestMajor, latestMinor, latestPatch] = latestVersion
+          .split(".")
+          .map(parseInt);
 
         if (currentMajor >= latestMajor) {
           if (currentMinor >= latestMinor) {
             if (currentPatch >= latestPatch) {
-              throw new Error("package is not outdated");
+              throw new Error(`package is not outdated: ${name}`);
             } else {
               behindPatch.push(package);
             }
