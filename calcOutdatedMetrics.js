@@ -36,10 +36,10 @@ process.stdin.on("end", function () {
         const [name, currentVersion, wanted, latestVersion] = package;
         const [currentMajor, currentMinor, currentPatch] = currentVersion
           .split(".")
-          .map(parseInt);
+          .map((str) => parseInt(str));
         const [latestMajor, latestMinor, latestPatch] = latestVersion
           .split(".")
-          .map(parseInt);
+          .map((str) => parseInt(str));
 
         if (currentMajor >= latestMajor) {
           if (currentMinor >= latestMinor) {
