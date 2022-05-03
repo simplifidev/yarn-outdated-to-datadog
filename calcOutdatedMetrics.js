@@ -60,10 +60,10 @@ process.stdin.on("end", function () {
       const numUpToDate =
         numberOfPackages - numBehindMajor - numBehindMinor - numBehindPatch;
 
-      const percentUpToDate = (numUpToDate / numberOfPackages).toFixed(2);
-      const percentBehindPatch = (numBehindPatch / numberOfPackages).toFixed(2);
-      const percentBehindMinor = (numBehindMinor / numberOfPackages).toFixed(2);
-      const percentBehindMajor = (numBehindMajor / numberOfPackages).toFixed(2);
+      const percentUpToDate = (numUpToDate / numberOfPackages).toFixed(4);
+      const percentBehindPatch = (numBehindPatch / numberOfPackages).toFixed(4);
+      const percentBehindMinor = (numBehindMinor / numberOfPackages).toFixed(4);
+      const percentBehindMajor = (numBehindMajor / numberOfPackages).toFixed(4);
 
       const results = {
         numberOfPackages,
