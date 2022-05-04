@@ -28,33 +28,43 @@ process.stdin.on("end", function () {
 
       const numberOfPackages = parseInt(stdout);
 
+      const semverToArr = (semverStr) =>
+        semverStr.split(".").map((str) => parseInt(str));
+
       const behindPatch = [];
       const behindMinor = [];
       const behindMajor = [];
 
-      packageList?.forEach((package) => {
+      const sortPackage = (package) => {
         const [name, currentVersion, wanted, latestVersion] = package;
-        const [currentMajor, currentMinor, currentPatch] = currentVersion
-          .split(".")
-          .map((str) => parseInt(str));
-        const [latestMajor, latestMinor, latestPatch] = latestVersion
-          .split(".")
-          .map((str) => parseInt(str));
 
-        if (currentMajor >= latestMajor) {
-          if (currentMinor >= latestMinor) {
-            if (currentPatch >= latestPatch) {
-              throw new Error(`package is not outdated: ${name}`);
-            } else {
-              behindPatch.push(package);
-            }
-          } else {
-            behindMinor.push(package);
-          }
-        } else {
+        // handle forked packages (ex., bell, nslds-parser)
+        if (latestVersion === "exotic") return;
+
+        const [currentMajor, currentMinor, currentPatch] =
+          semverToArr(currentVersion);
+        const [latestMajor, latestMinor, latestPatch] =
+          semverToArr(latestVersion);
+
+        if (currentMajor < latestMajor) {
           behindMajor.push(package);
+          return;
         }
-      });
+
+        if (currentMinor < latestMinor) {
+          behindMinor.push(package);
+          return;
+        }
+
+        if (currentPatch < latestPatch) {
+          behindPatch.push(package);
+          return;
+        }
+
+        throw new Error(`package is not outdated: ${name}`);
+      };
+
+      packageList?.forEach(sortPackage);
 
       const numBehindPatch = behindPatch.length;
       const numBehindMinor = behindMinor.length;
