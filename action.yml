@@ -8,6 +8,9 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 16
     - run: yarn outdated --json | node ${GITHUB_ACTION_PATH}/calcOutdatedMetrics.js | ${GITHUB_ACTION_PATH}/shipMetrics.sh
       shell: bash {0}
       env:
