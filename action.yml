@@ -18,7 +18,7 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
     - run: pnpm outdated --json | node ${GITHUB_ACTION_PATH}/calcOutdatedMetrics.js | ${GITHUB_ACTION_PATH}/shipMetrics.sh
-      shell: bash
+      shell: bash {0}
       env:
         DATADOG_API_KEY: ${{ inputs.datadog-api-key }}
         GITHUB_TOKEN: ${{ inputs.github-token }}
