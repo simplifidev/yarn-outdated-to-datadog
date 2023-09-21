@@ -21,3 +21,4 @@ runs:
       shell: bash {0}
       env:
         DATADOG_API_KEY: ${{ inputs.datadog-api-key }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}
