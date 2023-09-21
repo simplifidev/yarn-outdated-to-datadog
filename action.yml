@@ -14,6 +14,9 @@ runs:
     - uses: pnpm/action-setup@v2
       with:
         version: 8
+        run_install: true
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
     - run: pnpm outdated --json
       shell: bash
       env:
