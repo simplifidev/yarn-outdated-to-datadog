@@ -14,7 +14,7 @@ runs:
     - uses: pnpm/action-setup@v2
       with:
         version: 8
-    - run: pnpm outdated --json | node ${GITHUB_ACTION_PATH}/calcOutdatedMetrics.js | ${GITHUB_ACTION_PATH}/shipMetrics.sh
+    - run: pnpm outdated --json
       shell: bash
       env:
         DATADOG_API_KEY: ${{ inputs.datadog-api-key }}
