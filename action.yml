@@ -11,8 +11,7 @@ runs:
     - uses: actions/setup-node@v3
       with:
         node-version: 16
-    - name: pnpm-setup
-        uses: pnpm/action-setup@v2
+    - uses: pnpm/action-setup@v2
     - run: pnpm outdated --json
       shell: bash
       env:
