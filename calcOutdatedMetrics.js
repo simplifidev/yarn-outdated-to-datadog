@@ -32,13 +32,15 @@ function main() {
 const semverToArr = (semverStr) =>
   semverStr.split(".").map((str) => parseInt(str));
 
-const sortPackages = (packageList) => {
+const sortPackages = (parsedData) => {
   const behindPatch = [];
   const behindMinor = [];
   const behindMajor = [];
 
-  const sortPackage = (package) => {
-    const [name, currentVersion, wanted, latestVersion] = package;
+  Object.keys(parsedData).forEach((packageName) => {
+    const { current: currentVersion, latest: latestVersion } =
+      parsedData[packageName];
+
     // handle forked packages (ex., bell, nslds-parser)
     if (latestVersion === "exotic") return;
 
@@ -47,41 +49,33 @@ const sortPackages = (packageList) => {
     const [latestMajor, latestMinor, latestPatch] = semverToArr(latestVersion);
 
     if (currentMajor < latestMajor) {
-      behindMajor.push(package);
+      behindMajor.push(packageName);
       return;
     }
     if (currentMinor < latestMinor) {
-      behindMinor.push(package);
+      behindMinor.push(packageName);
       return;
     }
     if (currentPatch < latestPatch) {
-      behindPatch.push(package);
+      behindPatch.push(packageName);
       return;
     }
 
-    throw new Error(`package is not outdated: ${name}`);
-  };
-
-  packageList.forEach(sortPackage);
+    throw new Error(`package is not outdated: ${packageName}`);
+  });
 
   return { behindPatch, behindMinor, behindMajor };
 };
 
-const calcPercentBehind = (yarnOutdatedOutput, numberOfPackages) => {
-  const jsonLines = yarnOutdatedOutput.split("\n");
-  const lineWithDependencyTable = jsonLines.find((json) =>
-    json.includes('{"type":"table"')
-  );
-
-  if (!lineWithDependencyTable) {
+const calcPercentBehind = (pnpmOutdatedOutput, numberOfPackages) => {
+  if (!pnpmOutdatedOutput) {
     throw new Error(
-      `Did not receive output from 'yarn outdated'. data: ${yarnOutdatedOutput}`
+      `Did not receive output from 'pnpm outdated'. data: ${pnpmOutdatedOutput}`
     );
   }
-  const parsedData = JSON.parse(lineWithDependencyTable);
-  const packageList = parsedData.data.body;
+  const parsedData = JSON.parse(pnpmOutdatedOutput);
 
-  const { behindPatch, behindMinor, behindMajor } = sortPackages(packageList);
+  const { behindPatch, behindMinor, behindMajor } = sortPackages(parsedData);
 
   const numBehindPatch = behindPatch.length;
   const numBehindMinor = behindMinor.length;

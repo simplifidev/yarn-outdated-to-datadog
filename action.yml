@@ -1,4 +1,4 @@
-name: "yarn-outdated-to-datadog"
+name: "pnpm-outdated-to-datadog"
 description: "Github action to send metrics on outdated dependencies to datadog"
 inputs:
   datadog-api-key:
@@ -11,7 +11,7 @@ runs:
     - uses: actions/setup-node@v3
       with:
         node-version: 16
-    - run: yarn outdated --json | node ${GITHUB_ACTION_PATH}/calcOutdatedMetrics.js | ${GITHUB_ACTION_PATH}/shipMetrics.sh
+    - run: pnpm outdated --json | node ${GITHUB_ACTION_PATH}/calcOutdatedMetrics.js | ${GITHUB_ACTION_PATH}/shipMetrics.sh
       shell: bash {0}
       env:
         DATADOG_API_KEY: ${{ inputs.datadog-api-key }}
