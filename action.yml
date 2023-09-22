@@ -5,6 +5,12 @@ inputs:
     required: true
   github-token:
     required: true
+  datadog-repo-name:
+    required: false
+    default: ${{ github.repository }}
+  working-directory:
+    required: false
+    default: .
 runs:
   using: "composite"
   steps:
@@ -13,6 +19,8 @@ runs:
         node-version: 16
     - run: yarn outdated --json | node ${GITHUB_ACTION_PATH}/calcOutdatedMetrics.js | ${GITHUB_ACTION_PATH}/shipMetrics.sh
       shell: bash {0}
+      working-directory: ${{ inputs.working-directory }}
       env:
         DATADOG_API_KEY: ${{ inputs.datadog-api-key }}
         GITHUB_TOKEN: ${{ inputs.github-token }}
+        DATADOG_REPO_NAME: ${{ inputs.datadog-repo-name }}

@@ -23,7 +23,7 @@ curl \
 {
   "series": [
     {
-      "tags": ["repository:$GITHUB_REPOSITORY"],
+      "tags": ["repository:$DATADOG_REPO_NAME"],
       "type": "gauge",
       "metric": "renovate.number_of_packages",
       "points": [
@@ -34,7 +34,7 @@ curl \
       ]
     },
     {
-      "tags": ["repository:$GITHUB_REPOSITORY"],
+      "tags": ["repository:$DATADOG_REPO_NAME"],
       "type": "gauge",
       "metric": "renovate.percent_up_to_date",
       "points": [
@@ -45,7 +45,7 @@ curl \
       ]
     },
     {
-      "tags": ["repository:$GITHUB_REPOSITORY"],
+      "tags": ["repository:$DATADOG_REPO_NAME"],
       "type": "gauge",
       "metric": "renovate.percent_behind_patch",
       "points": [
@@ -56,7 +56,7 @@ curl \
       ]
     },
     {
-      "tags": ["repository:$GITHUB_REPOSITORY"],
+      "tags": ["repository:$DATADOG_REPO_NAME"],
       "type": "gauge",
       "metric": "renovate.percent_behind_minor",
       "points": [
@@ -67,7 +67,7 @@ curl \
       ]
     },
     {
-      "tags": ["repository:$GITHUB_REPOSITORY"],
+      "tags": ["repository:$DATADOG_REPO_NAME"],
       "type": "gauge",
       "metric": "renovate.percent_behind_major",
       "points": [
