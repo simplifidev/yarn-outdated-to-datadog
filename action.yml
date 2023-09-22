@@ -5,6 +5,9 @@ inputs:
     required: true
   github-token:
     required: true
+  datadog-repo-name:
+    required: false
+    default: ${{ github.repository }}
   working-directory:
     required: false
     default: .
@@ -20,3 +23,4 @@ runs:
       env:
         DATADOG_API_KEY: ${{ inputs.datadog-api-key }}
         GITHUB_TOKEN: ${{ inputs.github-token }}
+        DATADOG_REPO_NAME: ${{ inputs.datadog-repo-name }}
